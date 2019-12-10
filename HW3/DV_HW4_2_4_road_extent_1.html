@@ -1,0 +1,42 @@
+<html>
+<script type='text/javascript' src='http://www.google.com/jsapi'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="jquery.csv.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type='text/javascript'>google.load('visualization', '1', {'packages': ['geochart']});
+
+
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawVisualization);
+
+function drawVisualization() {
+
+     $.get("DV_HW4_2_4_road_extent.csv", function(csvString) {
+     var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+     var data = new google.visualization.arrayToDataTable(arrayData);
+
+      var options = {
+      backgroundColor: {fill:'transparent',stroke:'#FFFFFF' ,strokeWidth:0 },
+      colorAxis:  {minValue: 520, maxValue:13668,  colors: ['#E5F5E0','#d5ebce','#c8e8be','#b6e0a8','#9ad188','#88c973','#6eb557','#56a33c','#48962d','#3d8a22','#318016']},
+      legend: 'none',
+      backgroundColor: {fill:'transparent',stroke:'#FFFFFF' ,strokeWidth:0 },
+      datalessRegionColor: '#f5f5f5',
+      displayMode: 'regions',
+      enableRegionInteractivity: 'true',
+      resolution: 'provinces',
+      sizeAxis: {minValue: 1, maxValue:1,minSize:10,  maxSize: 10},
+      region:'KR',
+      keepAspectRatio: true,
+      width:600,
+      height:400,
+      tooltip: {textStyle: {color: '#444444'}, trigger:'focus'}
+      };
+
+     var chart = new google.visualization.GeoChart(document.getElementById('visualization'));
+     chart.draw(data, options);
+
+    })
+}
+ </script>
+ <div id='visualization'></div>
+</html>

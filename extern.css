@@ -1,0 +1,9 @@
+﻿header {text-align : center;}
+nav {display : block; width : 20%; height : 830px; background-color: black; float : left; text-align:center;}
+nav a {padding:8px; display:block; padding:10px; color: #ffffff; font-size:15px; text-align:center; text-decoration:none;}
+nav a:hover {color:grey;}
+article {margin:5px 0 10px 125px; background-color:#BDBDBD;}
+footer {float:right;}
+iframe {border:none;}
+#home {text-align:center; background-color:grey; border-radius:5px; 
+font-size:25px; border:1/6px solid; border-color:#CC723D; color:white;}

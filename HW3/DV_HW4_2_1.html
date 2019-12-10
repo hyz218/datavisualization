@@ -1,0 +1,41 @@
+<html>
+<script type='text/javascript' src='http://www.google.com/jsapi'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="jquery.csv.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type='text/javascript'>google.load('visualization', '1', {'packages': ['geochart']});
+
+
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawVisualization);
+
+function drawVisualization() {
+
+     $.get("DV_HW4_2_1.csv", function(csvString) {
+     var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+     var data = new google.visualization.arrayToDataTable(arrayData);
+
+     var options = {
+     backgroundColor: {fill:'transparent',stroke:'#FFFFFF' ,strokeWidth:0 },
+     colorAxis:  {minValue: 79, maxValue: 3026,  colors: ['#dae9f2','#bed8e8','#9cc2d9','#82b2cf','#6da5c7','#5a94b8','#4d8cb3','#3c7ca3','#2f7199','#25678f','#1c5a80']},
+     legend: 'none',
+     backgroundColor: {fill:'transparent',stroke:'#FFFFFF' ,strokeWidth:0 },
+     datalessRegionColor: '#f5f5f5',
+     displayMode: 'regions',
+     enableRegionInteractivity: 'true',
+     resolution: 'provinces',
+     sizeAxis: {minValue: 1, maxValue:1,minSize:10,  maxSize: 10},
+     region:'KR',
+     keepAspectRatio: true,
+     width:600,
+     height:400,
+     };
+
+     var chart = new google.visualization.GeoChart(document.getElementById('visualization'));
+     chart.draw(data, options);
+
+    })
+}
+ </script>
+ <div id='visualization'></div>
+</html>

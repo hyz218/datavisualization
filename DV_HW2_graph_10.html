@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+body { font: 12px Arial;}
+
+path {
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 12px;
+  padding: 8px;
+  margin-top: -20px;
+  font: 10px sans-serif;
+  background: #ddd;
+  pointer-events: none;
+}
+
+.legend { list-style: none; }
+.legend li { float: left; margin-right: 10px; }
+.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px;}
+
+.legend .Referral { background-color: #836852; }
+.legend .Payment { background-color: #c21b23; }
+
+</style>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+
+<script>
+var margin = {top: 30, right: 20, bottom: 30, left: 100},
+    width = 600 - margin.left - margin.right,
+    height = 270 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%Y").parse;
+
+var x = d3.time.scale().range([0, width]);
+var y = d3.scale.linear().range([height, 10]);
+
+
+var xAxis = d3.svg.axis().scale(x)
+    .orient("bottom")
+    .ticks(4)
+    .tickFormat(d3.time.format("%Y"));
+
+var yAxis = d3.svg.axis().scale(y)
+    .orient("left").ticks(5);
+
+var valueline = d3.svg.line()
+    .x(function(d) { return x(d.year); })
+    .y(function(d) { return y(d.total); });
+
+var valueline2 = d3.svg.line()
+    .x(function(d) { return x(d.year); })
+    .y(function(d) { return y(d.chuseok); });
+
+
+var svg = d3.select("body")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("df_avg_chuseok.csv", function(error, data) {
+
+  data.forEach(function(d) {
+        //d.year = d.year;
+        d.year=parseDate(d.year);
+        d.total = +d.total;
+        d.chuseok = +d.chuseok;
+    });
+
+
+    x.domain(d3.extent(data, function(d) { return d.year; }));
+    y.domain([0, d3.max(data, function(d) { return Math.max(d.total, d.chuseok); })]);
+
+
+    svg.append("path")
+        .attr("class", "line")
+        .attr('stroke', "#836852")
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseout", mouseout)
+        .attr("d", valueline(data))  ;
+
+    svg.selectAll("dot")
+        .data(data)
+      .enter().append("circle")
+        .attr("r", 3.5)
+        .attr("cx", function(d) { return x(d.year); })
+        .attr("cy", function(d) { return y(d.total); })
+        .style("fill","	#836852 ")
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseout", mouseout);
+
+
+    svg.append("path")
+        .attr("class", "line")
+        .attr('stroke', "#c21b23")
+        .attr('stroke-width', 2)
+        .attr("d", valueline2(data))
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseout", mouseout);
+
+
+    svg.selectAll("dot")
+        .data(data)
+      .enter().append("circle")
+        .attr("r", 3.5)
+        .attr("cx", function(d) { return x(d.year); })
+        .attr("cy", function(d) { return y(d.chuseok); })
+        .style("fill","#c21b23")
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseout", mouseout)
+        ;
+
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+        svg.append("g")
+           .attr("transform", "translate(" + (width / 2-110) + "," + 0 + ")")
+           .append("text")
+           .text("연도별 추석연휴의 해당월과 명절기간의 사망사고평균건수").style("fill","#000000")
+           .attr("class", "title")
+
+
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("display", "none");
+
+function mouseover() {
+  div.style("display", "inline");
+}
+
+var max=d3.max(data, function(d) { return Math.max(d.total, d.chuseok); });
+
+function mousemove() {
+        //Math.round(((max/210)*(210-d3.event.pageY)))
+      div.text(function(d,i){return Math.round(((max/200)*(247-d3.event.pageY)))})
+      .style("left", (d3.event.pageX - 34) + "px")
+      .style("top", (d3.event.pageY - 12) + "px");
+}
+
+
+function mouseout() {
+  div.style("display", "none");
+}
+
+
+});
+
+</script>
+
+<div id="Cpt">
+<ul class="legend">
+    <li><span class="Referral"></span> 추석연휴가 속한 달의 사망사고평균</li>
+    <li><span class="Payment"></span> 추석연휴기간의 사망사고평균</li>
+</ul>
+</div>
+
+
+</body>
