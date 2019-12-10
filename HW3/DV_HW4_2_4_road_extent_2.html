@@ -1,0 +1,83 @@
+<script type='text/javascript' src='http://www.google.com/jsapi'></script>
+<script type='text/javascript'>google.load('visualization', '1', {'packages': ['geochart']});
+google.setOnLoadCallback(drawVisualization);
+
+  function drawVisualization() {var data = new google.visualization.DataTable();
+
+ data.addColumn('string', 'Country');
+ data.addColumn('number', 'Value');
+ data.addColumn({type:'string', role:'tooltip'});var ivalue = new Array();
+
+ data.addRows([[{v:'KR-11', f:'서울'},13668,'면적대비도로길이\n13668']]);
+ ivalue['KR-11'] = '';
+
+ data.addRows([[{v:'KR-26', f:'부산'},4379,'면적대비도로길이\n4379']]);
+ ivalue['KR-26'] = '';
+
+ data.addRows([[{v:'KR-27',f:'대구'},3245,'면적대비도로길이\n3245']]);
+ ivalue['KR-27'] = '';
+
+ data.addRows([[{v:'KR-28',f:'인천'},3050,'면적대비도로길이\n3050']]);
+ ivalue['KR-28'] = '';
+
+ data.addRows([[{v:'KR-29',f:'광주'},3709,'면적대비도로길이\n3709']]);
+ ivalue['KR-29'] = '';
+
+ data.addRows([[{v:'KR-30',f:'대전'},3967,'면적대비도로길이\n3967']]);
+ ivalue['KR-30'] = '';
+
+ data.addRows([[{v:'KR-31',f:'울산'},2013,'면적대비도로길이\n2013']]);
+ ivalue['KR-31'] = '';
+
+ data.addRows([[{v:'KR-50',f:'세종'},773,'면적대비도로길이\n773']]);
+ ivalue['KR-50'] = '';
+
+ data.addRows([[{v:'KR-41',f:'경기'},1270,'면적대비도로길이\n1270']]);
+ ivalue['KR-41'] = '';
+
+ data.addRows([[{v:'KR-42',f:'강원'},520,'면적대비도로길이\n520']]);
+ ivalue['KR-42'] = '';
+
+ data.addRows([[{v:'KR-43',f:'충북'},868,'면적대비도로길이\n868']]);
+ ivalue['KR-43'] = '';
+
+ data.addRows([[{v:'KR-44',f:'충남'},820,'면적대비도로길이\n820']]);
+ ivalue['KR-44'] = '';
+
+ data.addRows([[{v:'KR-45',f:'전북'},962,'면적대비도로길이\n962']]);
+ ivalue['KR-45'] = '';
+
+ data.addRows([[{v:'KR-46',f:'전남'},768,'면적대비도로길이\n768']]);
+ ivalue['KR-46'] = '';
+
+ data.addRows([[{v:'KR-47',f:'경북'},645,'면적대비도로길이\n645']]);
+ ivalue['KR-47'] = '';
+
+ data.addRows([[{v:'KR-48',f:'경남'},1036,'면적대비도로길이\n1036']]);
+ ivalue['KR-48'] = '';
+
+ data.addRows([[{v:'KR-49',f:'제주'},1549,'면적대비도로길이\n1549']]);
+ ivalue['KR-49'] = '';
+
+
+ var options = {
+ backgroundColor: {fill:'transparent',stroke:'#FFFFFF' ,strokeWidth:0 },
+ colorAxis:  {minValue: 520, maxValue:4379,  colors: ['#E5F5E0','#d5ebce','#c8e8be','#b6e0a8','#9ad188','#88c973','#6eb557','#56a33c','#48962d','#3d8a22','#318016']},
+ legend: 'none',
+ backgroundColor: {fill:'transparent',stroke:'#FFFFFF' ,strokeWidth:0 },
+ datalessRegionColor: '#f5f5f5',
+ displayMode: 'regions',
+ enableRegionInteractivity: 'true',
+ resolution: 'provinces',
+ sizeAxis: {minValue: 1, maxValue:1,minSize:10,  maxSize: 10},
+ region:'KR',
+ keepAspectRatio: true,
+ width:600,
+ height:400,
+ tooltip: {textStyle: {color: '#444444'}, trigger:'focus'}
+ };
+  var chart = new google.visualization.GeoChart(document.getElementById('visualization'));
+ chart.draw(data, options);
+ }
+ </script>
+ <div id='visualization'></div>
